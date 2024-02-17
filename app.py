@@ -43,9 +43,15 @@ def main():
 
                         # Generate vector representation of text chunks
                        get_vector_store(text_chunks)
-                       
+
                        st.success("Done!")
 
     except Exception as e:
             logging.info("Error Occured With main function")
             raise CustomException(e,sys)
+    
+
+if __name__ == "__main__":
+     main()
+    
+
