@@ -71,18 +71,41 @@ def get_text_chunks(text):
     
 
 def get_vector_store(text_chunks):
-         # Logging the initiation of the function
-        logging.info("get_vector_store function called")
-        try:
-            # Creating an instance of OpenAIEmbeddings
-            embeddings = OpenAIEmbeddings()
-            # Creating a vector store from text chunks using FAISS and the embeddings
-            vector_store = FAISS.from_texts(texts=text_chunks,embedding=embeddings)
-            # Saving the vector store locally with a specified name
-            vector_store.save_local("faiss_index")
-        except Exception as e:
-            logging.info("Error Occured With get_vector_store")
-            raise CustomException(e,sys)
+    """
+    Creates a vector store from processed text chunks using FAISS and OpenAIEmbeddings.
+
+    Args:
+        processed_text_chunks (list): A list of pre-processed text chunks.
+
+    Returns:
+        None
+
+    Raises:
+        CustomException: If errors occur during vector store creation or saving.
+    """
+
+    logging.info("get_vector_store function called")
+
+    try:
+        # Ensure dependencies are installed
+        if not isinstance(OpenAIEmbeddings(), OpenAIEmbeddings):
+            raise ImportError("OpenAIEmbeddings is not installed or not accessible.")
+        if not isinstance(FAISS(), FAISS):
+            raise ImportError("FAISS is not installed or not accessible.")
+
+        # Create embeddings and vector store
+        embeddings = OpenAIEmbeddings()
+        vector_store = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
+
+        # Save the vector store (consider alternative formats if needed)
+        vector_store.save_local("faiss_index")
+
+    except Exception as e:
+        # Handle errors more informatively
+        logging.error(f"Error occurred in get_vector_store: {e}")
+        raise CustomException(e, sys)
+
+    logging.info("Vector store created and saved successfully.")
         
 def get_conversional_chain():
     try:
