@@ -15,7 +15,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
 from src.logger import logging
 from src.exception import CustomException
-from prompts_template import PROMPT_TEMPLATE
+from prompts_template.template import PROMPT_TEMPLATE
 import dotenv 
 import warnings
 warnings.filterwarnings("ignore")
