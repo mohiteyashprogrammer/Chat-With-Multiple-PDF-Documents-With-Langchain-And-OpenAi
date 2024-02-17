@@ -2,17 +2,17 @@ from PyPDF2 import PdfReader
 import streamlit  as st
 import langchain
 from langchain.llms import OpenAI
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_community.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
 import sys
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import google.generativeai as genai
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
-from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from src.logger import logging
 from src.exception import CustomException
 from prompts_template.template import PROMPT_TEMPLATE
@@ -85,27 +85,18 @@ def get_vector_store(text_chunks):
     """
 
     logging.info("get_vector_store function called")
-
     try:
-        # Ensure dependencies are installed
-        if not isinstance(OpenAIEmbeddings(), OpenAIEmbeddings):
-            raise ImportError("OpenAIEmbeddings is not installed or not accessible.")
-        if not isinstance(FAISS(), FAISS):
-            raise ImportError("FAISS is not installed or not accessible.")
-
-        # Create embeddings and vector store
+        # Creating an instance of OpenAIEmbeddings
         embeddings = OpenAIEmbeddings()
-        vector_store = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
-
-        # Save the vector store (consider alternative formats if needed)
+        # Creating a vector store from text chunks using FAISS and the embeddings
+        vector_store = FAISS.from_texts(texts=text_chunks,embedding=embeddings)
+            # Saving the vector store locally with a specified name
         vector_store.save_local("faiss_index")
 
     except Exception as e:
         # Handle errors more informatively
         logging.error(f"Error occurred in get_vector_store: {e}")
         raise CustomException(e, sys)
-
-    logging.info("Vector store created and saved successfully.")
         
 def get_conversional_chain():
     try:
