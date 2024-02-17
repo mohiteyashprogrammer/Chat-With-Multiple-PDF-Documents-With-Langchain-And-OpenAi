@@ -8,5 +8,8 @@ faiss-cpu
 langchain_google_genai
 openai
 ipykernel
+langchain-community
+
+#./.venv/Scripts/activate
 
 -e .
