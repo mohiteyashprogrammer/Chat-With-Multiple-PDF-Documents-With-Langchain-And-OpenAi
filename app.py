@@ -24,7 +24,7 @@ def main():
         if user_question:
              user_input(user_question)
 
-        with st.slider:
+        with st.sidebar:
              st.title("Chat PDFs")
 
              # Upload multiple PDF files
