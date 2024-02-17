@@ -9,7 +9,10 @@ langchain_google_genai
 openai
 ipykernel
 langchain_community
+tiktoken
 
 #./.venv/Scripts/activate
 
 -e .
+
+
