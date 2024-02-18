@@ -89,7 +89,7 @@ def get_vector_store(text_chunks):
         # Creating an instance of OpenAIEmbeddings
         embeddings = OpenAIEmbeddings()
         # Creating a vector store from text chunks using FAISS and the embeddings
-        vector_store = FAISS.from_texts(texts=text_chunks,embedding=embeddings)
+        vector_store = FAISS.from_documents(texts=text_chunks,embedding=embeddings)
             # Saving the vector store locally with a specified name
         vector_store.save_local("faiss_index")
 
