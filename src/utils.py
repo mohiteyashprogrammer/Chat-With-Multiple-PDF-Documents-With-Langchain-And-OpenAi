@@ -70,7 +70,7 @@ def get_text_chunks(text):
         raise CustomException(e,sys)
     
 
-def get_vector_store(text_chunks):
+def get_vector_store(text_chunks,directory="faiss_index"):
     """
     Creates a vector store from processed text chunks using FAISS and OpenAIEmbeddings.
 
@@ -86,12 +86,13 @@ def get_vector_store(text_chunks):
 
     logging.info("get_vector_store function called")
     try:
-        # Creating an instance of OpenAIEmbeddings
+        # Check if the directory exists
+        if not os.path.exists(directory):
+            os.makedirs(directory)  # Create the directory if it doesn't exist
+        
         embeddings = OpenAIEmbeddings()
-        # Creating a vector store from text chunks using FAISS and the embeddings
-        vector_store = FAISS.from_documents(texts=text_chunks,embedding=embeddings)
-            # Saving the vector store locally with a specified name
-        vector_store.save_local("faiss_index")
+        vector_store = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
+        vector_store.save_local(directory)
 
     except Exception as e:
         # Handle errors more informatively
